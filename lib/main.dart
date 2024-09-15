@@ -38,6 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ["Do Excercise", false],
   ];
 
+  final _controller = TextEditingController();
+
   //checkbox tapped
   void checkBoxChanged(bool value, int index) {
     setState(() {
@@ -45,11 +47,29 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void deleteTask(int index) {
+    setState(() {
+      todoList.removeAt(index);
+    });
+  }
+
+  void saveNewTask() {
+    setState(() {
+      todoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
   void createNewTask() {
     showDialog(
         context: context,
         builder: (context) {
-          return DialogBox();
+          return DialogBox(
+            controller: _controller,
+            onSave: () {},
+            onCancel: () => Navigator.of(context).pop(),
+          );
         });
   }
 
@@ -72,8 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
             return TodoTile(
               taskName: todoList[index][0],
               taskCompleted: todoList[index][1],
-              onChanged: (value) => checkBoxChanged(
-                  value ?? false, index), // Correct function call
+              onChanged: (value) => checkBoxChanged(value ?? false, index),
+              deleteFunction: (context) =>
+                  deleteTask(index), // Correct function call
             );
           },
         ));
