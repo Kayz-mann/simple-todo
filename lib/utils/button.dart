@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
   final String text;
+  final Color? backgroundColor;
   VoidCallback onPressed;
 
   Button({
     super.key,
     required this.text,
     required this.onPressed,
+    this.backgroundColor,
   });
 
   @override
@@ -15,6 +17,6 @@ class Button extends StatelessWidget {
     return MaterialButton(
         onPressed: onPressed,
         child: Text(text),
-        color: Theme.of(context).primaryColor);
+        color: backgroundColor ?? Theme.of(context).primaryColor);
   }
 }

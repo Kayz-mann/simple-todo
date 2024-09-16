@@ -86,17 +86,24 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         backgroundColor: Colors.yellow[400],
       ),
-      body: ListView.builder(
-        itemCount: db.toDoList.length,
-        itemBuilder: (context, index) {
-          return TodoTile(
-            taskName: db.toDoList[index][0],
-            taskCompleted: db.toDoList[index][1],
-            onChanged: (value) => checkBoxChanged(value, index),
-            deleteFunction: (context) => deleteTask(index),
-          );
-        },
-      ),
+      body: db.toDoList.length > 0
+          ? ListView.builder(
+              itemCount: db.toDoList.length,
+              itemBuilder: (context, index) {
+                return TodoTile(
+                  taskName: db.toDoList[index][0],
+                  taskCompleted: db.toDoList[index][1],
+                  onChanged: (value) => checkBoxChanged(value, index),
+                  deleteFunction: (context) => deleteTask(index),
+                );
+              },
+            )
+          : Center(
+              child: Text(
+              "No item in list, \ncreate a list by clicking the floating icon",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+            )),
     );
   }
 }
